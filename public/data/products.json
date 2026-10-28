@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Coca-Cola 500ml",
+    "description": "Bebida gaseosa fría, ideal para acompañar tus snacks.",
+    "price": 1200,
+    "image": "/img/kiosco/coca-cola.jpg",
+    "category": "bebidas"
+  },
+  {
+    "id": 2,
+    "name": "Papas Lays Clásicas",
+    "description": "Papas fritas crujientes, sabor original. 150g.",
+    "price": 1800,
+    "image": "/img/kiosco/papas-lays.jpg",
+    "category": "snacks"
+  },
+  {
+    "id": 3,
+    "name": "Chocolate Milka",
+    "description": "Chocolate con leche suizo, 100g.",
+    "price": 2200,
+    "image": "/img/kiosco/chocolate-milka.jpg",
+    "category": "golosinas"
+  },
+  {
+    "id": 4,
+    "name": "Cigarrillos Marlboro",
+    "description": "Atado de cigarrillos Marlboro Rojo.",
+    "price": 3500,
+    "image": "/img/kiosco/cigarrillos.jpg",
+    "category": "cigarrillos"
+  },
+  {
+    "id": 5,
+    "name": "Agua Mineral 500ml",
+    "description": "Agua mineral sin gas, bien fría.",
+    "price": 800,
+    "image": "/img/kiosco/agua-mineral.jpg",
+    "category": "bebidas"
+  },
+  {
+    "id": 6,
+    "name": "Alfajor Triple",
+    "description": "Alfajor de chocolate relleno con dulce de leche.",
+    "price": 1500,
+    "image": "/img/kiosco/alfajor.jpg",
+    "category": "golosinas"
+  }
+]
