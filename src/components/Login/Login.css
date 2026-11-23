@@ -1,64 +1,37 @@
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import "./Login.css";
-import { useState } from "react";
+.login-form {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: var(--surface, #fff);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-export const Login = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text, #333);
+}
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+.login-form .form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+.login-form label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
 
-    try {
-      await login(formData.email, formData.password);
-      navigate("/admin", { replace: true });
-    } catch (error) {
-      console.error(error);
-      alert("Error al iniciar sesión");
-    }
-  };
+.login-form input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
 
-  return (
-    <form onSubmit={handleSubmit} className="login-form">
-      <h2>Iniciar sesión</h2>
-
-      <div className="form-group">
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Correo electronico"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <div className="form-group">
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <button className="btn bg-primary" type="submit">
-        Ingresar
-      </button>
-    </form>
-  );
-};
+.login-form button {
+  width: 100%;
+  margin-top: 1rem;
+}
