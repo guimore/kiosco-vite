@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaCartPlus } from 'react-icons/fa'; // <-- Ícono de carrito
 import './Item.css';
 
 const Item = ({ name, image, price, id }) => {   
@@ -11,11 +12,13 @@ const Item = ({ name, image, price, id }) => {
                     <h5 className='card-title'>{name}</h5>
                     <p className='price'>${price.toLocaleString('es-AR')}</p>
                     
-                    <Link to={`/producto/${id}`} className='btn btn_ver_mas'>Ver más</Link>
+                    <Link to={`/producto/${id}`} className='btn btn_ver_mas d-flex justify-content-center align-items-center gap-2'>
+                        <FaCartPlus /> Ver más
+                    </Link>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Item
+export default Item;

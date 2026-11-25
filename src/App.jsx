@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Helmet } from 'react-helmet-async'; // <-- NUEVO
 import "./App.css";
 
 // Tus componentes
@@ -10,7 +11,7 @@ import Cart from './components/Cart/Cart';
 // Componentes de la profe y nuevos
 import { ProductFormContainer } from './components/adminComponents/ProductForm/ProductFormContainer';
 import { EditProductContainer } from './components/adminComponents/ProductForm/EditProductContainer';
-import { AdminProducts } from './components/AdminProducts/AdminProducts'; // <-- Ruta corregida
+import { AdminProducts } from './components/AdminProducts/AdminProducts';
 import { ProductSuccess } from './components/adminComponents/ProductSuccess';
 import { PublicLayout } from './layouts/PublicLayout';
 import { AdminLayout } from './layouts/AdminLayout';
@@ -21,6 +22,12 @@ import { Dashboard } from './components/adminComponents/Dashboard/Dashboard';
 function App() {
   return (
     <BrowserRouter>
+      {/* TÍTULO GENERAL POR DEFECTO */}
+      <Helmet>
+        <title>Mi Kiosco | Tu kiosco de confianza</title>
+        <meta name="description" content="Compra bebidas, snacks y más en Mi Kiosco." />
+      </Helmet>
+
       <Routes>
         {/* ----------------------RUTAS PUBLICAS -------------------------*/}
         <Route element={<PublicLayout />}>

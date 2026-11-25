@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Table, Button, Modal } from "react-bootstrap"; 
+import { FaEdit, FaTrash } from "react-icons/fa"; 
 import { getProducts, deleteProduct } from "../../services/productsService";
+import { Helmet } from 'react-helmet-async'; // <-- NUEVO
 
 export const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const [showModal, setShowModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -22,15 +29,23 @@ export const AdminProducts = () => {
     fetchProducts();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("¿Seguro que querés eliminar este producto?")) {
-      try {
-        await deleteProduct(id);
-        // Volvemos a pedir la lista para que el producto desaparezca de la pantalla
-        fetchProducts(); 
-      } catch (error) {
-        alert("Error al eliminar el producto");
-      }
+  const handleShowModal = (id) => {
+    setProductToDelete(id); 
+    setShowModal(true);     
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);    
+    setProductToDelete(null); 
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteProduct(productToDelete);
+      fetchProducts(); 
+      handleCloseModal(); 
+    } catch (error) {
+      alert("Error al eliminar el producto");
     }
   };
 
@@ -38,49 +53,76 @@ export const AdminProducts = () => {
 
   return (
     <div style={{ padding: "2rem", maxWidth: "900px", margin: "0 auto" }}>
+      {/* TÍTULO DINÁMICO PARA EL ADMIN */}
+      <Helmet>
+        <title>Gestión de Productos | Admin - Mi Kiosco</title>
+      </Helmet>
+
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
         <h2>Gestión de Productos</h2>
         <Link to="/admin/dashboard" className="btn btn-secondary">Volver al Panel</Link>
       </div>
       
-      <table style={{ width: "100%", borderCollapse: "collapse", background: "white", borderRadius: "8px", overflow: "hidden", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
-        <thead style={{ background: "#f4f4f4" }}>
+      <Table striped bordered hover responsive className="bg-white shadow-sm">
+        <thead className="table-dark">
           <tr>
-            <th style={{ padding: "1rem", textAlign: "left" }}>Imagen</th>
-            <th style={{ padding: "1rem", textAlign: "left" }}>Nombre</th>
-            <th style={{ padding: "1rem", textAlign: "left" }}>Precio</th>
-            <th style={{ padding: "1rem", textAlign: "center" }}>Acciones</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th className="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {products.length === 0 ? (
-            <tr><td colSpan="4" style={{ padding: "1rem", textAlign: "center" }}>No hay productos cargados.</td></tr>
+            <tr><td colSpan="4" className="text-center py-4">No hay productos cargados.</td></tr>
           ) : (
             products.map((prod) => (
-              <tr key={prod.id} style={{ borderBottom: "1px solid #eee" }}>
-                <td style={{ padding: "1rem" }}>
+              <tr key={prod.id} className="align-middle">
+                <td>
                   <img src={prod.image} alt={prod.name} style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "6px" }} />
                 </td>
-                <td style={{ padding: "1rem" }}>{prod.name}</td>
-                <td style={{ padding: "1rem" }}>${prod.price}</td>
-                <td style={{ padding: "1rem", textAlign: "center" }}>
-                  {/* El botón editar lo dejamos para después, por ahora te lleva al form */}
-                  <button 
-                    onClick={() => navigate(`/admin/products/edit/${prod.id}`)} 
-                    style={{ marginRight: "10px", padding: "0.5rem", cursor: "pointer" }}>
-                    Editar
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(prod.id)} 
-                    style={{ padding: "0.5rem", cursor: "pointer", color: "red" }}>
-                    Eliminar
-                  </button>
+                <td>{prod.name}</td>
+                <td>${prod.price}</td>
+                <td className="text-center">
+                  <Button 
+                    variant="warning" 
+                    size="sm" 
+                    className="me-2 d-inline-flex align-items-center gap-1" 
+                    onClick={() => navigate(`/admin/products/edit/${prod.id}`)}
+                  >
+                    <FaEdit /> Editar
+                  </Button>
+                  <Button 
+                    variant="danger" 
+                    size="sm" 
+                    className="d-inline-flex align-items-center gap-1"
+                    onClick={() => handleShowModal(prod.id)} 
+                  >
+                    <FaTrash /> Eliminar
+                  </Button>
                 </td>
               </tr>
             ))
           )}
         </tbody>
-      </table>
+      </Table>
+
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Eliminación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro de que querés eliminar este producto? Esta acción no se puede deshacer.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Sí, eliminar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

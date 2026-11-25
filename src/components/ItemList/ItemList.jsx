@@ -4,8 +4,8 @@ import './ItemList.css';
 
 const ItemList = ({ data }) => {
     return (
-        <div className='container'>
-            <div className='row justify-content-evenly align-items-stretch'>
+        <div className='container-fluid px-4 py-4'>
+            <div className='row g-4 justify-content-center align-items-stretch'>
                 {data.map((i) => (
                     <Item 
                         key={i.id} 
